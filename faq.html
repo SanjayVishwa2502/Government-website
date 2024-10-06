@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f4f7;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #333;
+        }
+        .faq {
+            margin: 15px 0;
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .faq h3 {
+            cursor: pointer;
+            color: #007BFF;
+        }
+        .faq p {
+            display: none; /* Hide answers by default */
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Frequently Asked Questions</h1>
+        
+        <div class="faq">
+            <h3 onclick="toggleAnswer(this)">What is Document Assistance?</h3>
+            <p>Document Assistance is a service designed to help you manage and apply for essential documents.</p>
+        </div>
+
+        <div class="faq">
+            <h3 onclick="toggleAnswer(this)">How do I apply for a document?</h3>
+            <p>You can apply for documents through our chatbot interface.</p>
+        </div>
+
+        <div class="faq">
+            <h3 onclick="toggleAnswer(this)">Is my data secure?</h3>
+            <p>Yes, we prioritize your privacy and security, implementing the latest security measures to protect your information.</p>
+        </div>
+
+        <div class="faq">
+            <h3 onclick="toggleAnswer(this)">How can I contact support?</h3>
+            <p>You can reach our support team via the contact form on our website.</p>
+        </div>
+
+        <button onclick="location.href='features.html'">Back to Features</button>
+    </div>
+
+    <script>
+        function toggleAnswer(element) {
+            const answer = element.nextElementSibling;
+            answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

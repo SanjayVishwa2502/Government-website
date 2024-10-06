@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Document Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f4f7;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        #map {
+            margin-top: 20px;
+            display: none; /* Initially hide the map image */
+        }
+        .map-image {
+            width: 100%;
+            height: auto;
+            max-height: 400px; /* Limit height for better display */
+            border-radius: 10px; /* Rounded corners for the image */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Track Document Location</h1>
+        <button class="btn" onclick="trackDocument()">Track Docs</button>
+        <img id="map" class="map-image" src="" alt="Map Location"> <!-- Image element for the map -->
+    </div>
+
+    <script>
+        function trackDocument() {
+            let isValid = false; // Variable to track validity
+            let docId;
+
+            while (!isValid) {
+                docId = prompt("Please enter the Document ID (format: AA-123456789):");
+
+                // Regex to check the format: two uppercase letters, a hyphen, followed by nine digits
+                const format = /^[A-Z]{2}-\d{9}$/;
+
+                if (format.test(docId)) {
+                    isValid = true; // Set valid if format is correct
+                } else {
+                    alert("Invalid Document ID. Please use the format: AA-123456789");
+                }
+            }
+
+            // Dummy URL for demonstration; replace with actual image logic based on docId
+            const mapImageUrl = 'images/map_placeholder.jpg'; // Example image path
+            document.getElementById("map").src = mapImageUrl; // Set the image source
+            document.getElementById("map").style.display = 'block'; // Show the image
+        }
+    </script>
+</body>
+</html>

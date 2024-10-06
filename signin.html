@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/background.jpg'); /* Update this path */
+            background-size: cover; /* Make the background cover the whole page */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent background from repeating */
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 100px auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .input-field {
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .signup-link {
+            margin-top: 15px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sign In</h1>
+        <input type="text" class="input-field" placeholder="Username" id="username" required />
+        <input type="password" class="input-field" placeholder="Password" id="password" required />
+        <br>
+        <button class="btn" onclick="signIn()">Sign In</button>
+        <p id="error-message" style="color: red;"></p>
+        <a href="signup.html" class="signup-link">Create an account</a>
+    </div>
+
+    <script>
+        function signIn() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // Basic validation (you can enhance this later)
+            if (username === "" || password === "") {
+                errorMessage.innerText = "Please enter both username and password.";
+                return;
+            }
+
+            // Here you can add logic for real authentication
+            // For demo purposes, we just navigate to the chatbot
+            window.location.href = 'indexsignin.html'; 
+        }
+    </script>
+</body>
+</html>

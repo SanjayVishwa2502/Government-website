@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Document Assistance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/background.jpg'); /* Update the image path as necessary */
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 20px;
+            color: black;
+            position: relative; /* Allow absolute positioning of buttons */
+            height: 100vh; /* Ensure full viewport height */
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: auto;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .info {
+            color: #555;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .btn {
+            padding: 15px 30px;
+            background-color: #007BFF; /* Default button color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .chatbot-btn {
+            position: absolute;
+            bottom: 20px; /* Distance from bottom */
+            right: 20px; /* Distance from right */
+            background-color: lightgreen; /* Light green background */
+        }
+        .features-nav {
+            position: absolute;
+            bottom: 20px; /* Distance from bottom */
+            left: 20px; /* Distance from left */
+            padding: 10px;
+            background-color: #007BFF; /* Navigation button color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .profile-dashboard-container {
+            position: absolute;
+            top: 20px; /* Distance from top */
+            right: 20px; /* Distance from right */
+            display: flex;
+            flex-direction: row; /* Align items in a row */
+            align-items: center; /* Center vertically */
+        }
+        .toggle-btn {
+            background-color: white; /* White background for toggle */
+            border: none; /* No border */
+            cursor: pointer; /* Pointer cursor */
+            margin-right: 10px; /* Space between icons */
+        }
+        .dashboard {
+            display: none; /* Initially hidden */
+            background-color: #f0f0f0; /* Light grey background */
+            border: 1px solid #ccc; /* Light border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Padding for dashboard */
+            position: absolute; /* Absolute positioning */
+            right: 0; /* Align to the right */
+            top: 40px; /* Below the profile and toggle icons */
+            z-index: 1000; /* Ensure it appears above other elements */
+        }
+        .dashboard-option {
+            display: block; /* Block display for each option */
+            padding: 8px; /* Padding for each option */
+            color: black; /* Text color */
+            text-decoration: none; /* No underline */
+            margin-bottom: 5px; /* Space between options */
+        }
+        .dashboard-option:hover {
+            background-color: #007BFF; /* Change background on hover */
+            color: white; /* Change text color on hover */
+        }
+
+        /* Container for reviews */
+        .reviews-container {
+            margin: 20px 0;
+            overflow: hidden;
+            height: 120px; /* Adjust height based on your needs */
+            position: relative;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: grid; /* Use grid layout */
+            grid-template-columns: repeat(3, 1fr); /* Three columns */
+            gap: 10px; /* Space between items */
+        }
+
+        /* Review item styling */
+        .review-item {
+            padding: 5px; /* Spacing around reviews */
+            box-sizing: border-box; /* Include padding in width */
+            text-align: left; /* Align text to the left */
+            border: 1px solid #ddd; /* Light border for each review */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #fff; /* White background for each review */
+            animation: scroll 30s linear infinite; /* Adjust duration for faster speed */
+        }
+
+        /* Animation for scrolling */
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%); /* Start off the right */
+            }
+            100% {
+                transform: translateX(-100%); /* Move to the left */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Document Assistance</h1>
+        <p class="info">Your one-stop solution for managing essential documents.</p>
+    </div>
+
+    <!-- Positioned Buttons -->
+    <button class="btn chatbot-btn" onclick="location.href='chatbot.html'">Go to Chatbot</button>
+    <button class="features-nav" onclick="location.href='features.html'">Learn about Chatbot Features</button>
+
+    <div class="profile-dashboard-container">
+        <button class="toggle-btn" onclick="toggleDashboard()">
+            <img src="images/toggle.png" alt="Toggle Dashboard"> <!-- Update image path -->
+        </button>
+        <a href="profile.html">
+            <img src="images/profile.png" alt="Profile" style="width: 30px; height: 30px;"> <!-- Profile icon -->
+        </a>
+        <div class="dashboard" id="dashboard">
+            <a class="dashboard-option" href="index.html">Home</a>
+            <a class="dashboard-option" href="features.html">Features</a>
+            <a class="dashboard-option" href="faq.html">FAQ</a>
+            <a class="dashboard-option" href="track_docs.html">Track Documents</a>
+        </div>
+    </div>
+
+    <!-- Dynamic reviews container -->
+    <div class="reviews-container">
+        <div class="review-item">🌟 "Great chatbot! Very helpful!" - User A</div>
+        <div class="review-item">🌟 "Quick and easy to use!" - User B</div>
+        <div class="review-item">🌟 "Resolved my issue in minutes!" - User C</div>
+        <div class="review-item">🌟 "Excellent support, thank you!" - User D</div>
+        <div class="review-item">🌟 "Fantastic tool for managing documents." - User E</div>
+        <div class="review-item">🌟 "This service saved me so much time!" - User F</div>
+        <div class="review-item">🌟 "I love the voice input feature!" - User G</div>
+        <div class="review-item">🌟 "The user interface is very intuitive." - User H</div>
+        <div class="review-item">🌟 "I'm impressed with the real-time updates!" - User I</div>
+        <div class="review-item">🌟 "Helped me navigate through a complex process." - User J</div>
+        <div class="review-item">🌟 "Highly recommend this service to everyone." - User K</div>
+        <div class="review-item">🌟 "The tutorials made everything so clear." - User L</div>
+        <div class="review-item">🌟 "Customer support is very responsive!" - User M</div>
+        <div class="review-item">🌟 "I was able to track my documents easily." - User N</div>
+        <div class="review-item">🌟 "An excellent service for document management." - User O</div>
+    </div>
+
+    <script>
+        function toggleDashboard() {
+            const dashboard = document.getElementById('dashboard');
+            if (dashboard.style.display === "none" || dashboard.style.display === "") {
+                dashboard.style.display = "block"; // Show the dashboard
+            } else {
+                dashboard.style.display = "none"; // Hide the dashboard
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Assistance Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .messages {
+            margin: 20px 0;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            min-height: 200px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        .input-field {
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .send-btn, .download-btn, .features-btn, .nav-btn {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .send-btn {
+            background-color: #007BFF;
+        }
+        .send-btn:hover {
+            background-color: #0056b3;
+        }
+        .download-btn {
+            background-color: #28a745;
+            margin-top: 20px;
+        }
+        .download-btn:hover {
+            background-color: #218838;
+        }
+        .features-btn {
+            background-color: #17a2b8;
+            margin-top: 20px;
+        }
+        .features-btn:hover {
+            background-color: #138496;
+        }
+        .nav-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007BFF;
+            font-weight: bold;
+        }
+        .nav-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <button class="nav-btn" onclick="window.location.href='indexsignin.html';">Home</button>
+        <h1>Chat with the Bot</h1>
+        <div class="messages" id="chat-area">
+            <p><strong>BOT:</strong> Hello! How can I assist you today? You can apply for a document or renew an existing one.</p>
+        </div>
+        <input type="text" id="user-input" class="input-field" placeholder="Type your message here..." />
+        <button id="send-btn" class="send-btn">Send</button>
+        <button id="download-btn" class="download-btn">Download Conversation as PDF</button>
+        <button onclick="window.location.href='features.html';" class="features-btn">View Features</button>
+    </div>
+
+    <script>
+        const documentRepository = {
+            "central": ["PAN", "Driving License", "Voter ID"],
+            "state": ["Community Certificate", "Income Certificate", "Birth Certificate"]
+        };
+
+        const documentRequirements = {
+            "PAN": ["Identity proof: Passport, Aadhaar card", "Address proof: Electricity bill", "Date of birth proof: Birth certificate"],
+            "Driving License": ["Identity proof: Aadhaar card", "Address proof: Ration card", "Application form filled online"],
+            "Voter ID": ["Passport-size photograph", "Proof of address", "Proof of age", "Identity proof"],
+            "Community Certificate": ["Filled application", "Parents' identity proof", "Affidavit", "Address proof"],
+            "Income Certificate": ["Identity proof", "Residence proof", "Income details"],
+            "Birth Certificate": ["Parents' identity and address proof", "Application form with child details"]
+        };
+
+        let currentStep = 0;
+        let selectedDocumentType = "";
+        let selectedService = "";
+        let chatHistory = []; // Array to keep track of chat messages
+        let idleTimer;  // Variable to track idle time
+        const idleLimit = 60000; // 1 minute in milliseconds
+
+        const steps = [
+            "Please select the type of document you need: 1. Central Government Documents 2. State Government Documents",
+            "Please select a Central Government Document: 1. PAN 2. Driving License 3. Voter ID",
+            "Please select a State Government Document: 1. Community Certificate 2. Income Certificate 3. Birth Certificate",
+            "Please enter your full name.",
+            "Please enter your date of birth (DD-MM-YYYY).",
+            "Please enter your ID number.",
+            "Here are the required documents for your selected service: ",
+            "Please upload a supporting document (e.g., photo or ID scan).",
+            "Successfully applied for your document. Would you like to apply for another document? (yes/no)"
+        ];
+
+        const GREET_INPUTS = ["hello", "hi", "greetings", "sup", "what's up", "hey"];
+        const GREET_RESPONSES = ["hi", "hey", "*nods*", "hi there", "hello", "I am glad to be talking to you"];
+
+        function addBotMessage(message) {
+            const chatArea = document.getElementById('chat-area');
+            const botDiv = document.createElement('p');
+            botDiv.innerHTML = `<strong>BOT:</strong> ${message}`;
+            chatArea.appendChild(botDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;  // Auto scroll to bottom
+            chatHistory.push(`BOT: ${message}`); // Store the bot message
+        }
+
+        function addUserMessage(message) {
+            const chatArea = document.getElementById('chat-area');
+            const userDiv = document.createElement('p');
+            userDiv.innerHTML = `<strong> YOU:</strong> ${message}`;
+            chatArea.appendChild(userDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;  // Auto scroll to bottom
+            chatHistory.push(`YOU: ${message}`); // Store the user message
+        }
+
+        function greet(sentence) {
+            for (let word of sentence.split(" ")) {
+                if (GREET_INPUTS.includes(word.toLowerCase())) {
+                    return GREET_RESPONSES[Math.floor(Math.random() * GREET_RESPONSES.length)];
+                }
+            }
+            return null;
+        }
+
+        function resetIdleTimer() {
+            clearTimeout(idleTimer); // Clear existing timer
+            idleTimer = setTimeout(() => {
+                addBotMessage("You've been idle for too long. Goodbye!");
+                document.getElementById('user-input').disabled = true; // Disable input
+                document.getElementById('send-btn').disabled = true; // Disable button
+                document.getElementById('download-btn').disabled = true; // Disable download button
+            }, idleLimit);
+        }
+
+        document.getElementById('user-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('send-btn').click(); // Simulate click on send button when Enter is pressed
+            }
+        });
+
+        document.getElementById('send-btn').addEventListener('click', () => {
+            const userInput = document.getElementById('user-input').value.trim();
+
+            if (userInput) {
+                // Reset the idle timer
+                resetIdleTimer();
+
+                // Add user message to chat
+                addUserMessage(userInput);
+
+                // Handle chatbot logic
+                if (userInput.toLowerCase() === "exit" || userInput.toLowerCase() === "quit") {
+                    addBotMessage("Goodbye! It was nice chatting with you.");
+                    document.getElementById('user-input').disabled = true; // Disable input
+                    document.getElementById('send-btn').disabled = true; // Disable button
+                    document.getElementById('download-btn').disabled = true; // Disable download button
+                    return; // Exit the function to prevent further processing
+                }
+
+                switch (currentStep) {
+                    case 0:
+                        const greetResponse = greet(userInput);
+                        if (greetResponse) {
+                            addBotMessage(greetResponse);
+                        } else {
+                            addBotMessage(steps[0]);
+                        }
+                        currentStep++;
+                        break;
+
+                    case 1:
+                        if (userInput === "1") {
+                            selectedDocumentType = "central";
+                            addBotMessage(steps[1]);
+                        } else if (userInput === "2") {
+                            selectedDocumentType = "state";
+                            addBotMessage(steps[2]);
+                        } else {
+                            addBotMessage("Invalid option. " + steps[0]);
+                        }
+                        currentStep++;
+                        break;
+
+                    case 2:
+                        if (selectedDocumentType === "central") {
+                            if (userInput === "1") {
+                                selectedService = "PAN";
+                            } else if (userInput === "2") {
+                                selectedService = "Driving License";
+                            } else if (userInput === "3") {
+                                selectedService = "Voter ID";
+                            } else {
+                                addBotMessage("Invalid option. " + steps[1]);
+                                return;
+                            }
+                        } else {
+                            if (userInput === "1") {
+                                selectedService = "Community Certificate";
+                            } else if (userInput === "2") {
+                                selectedService = "Income Certificate";
+                            } else if (userInput === "3") {
+                                selectedService = "Birth Certificate";
+                            } else {
+                                addBotMessage("Invalid option. " + steps[2]);
+                                return;
+                            }
+                        }
+
+                        addBotMessage("You selected: " + selectedService + ". " + steps[3]);
+                        currentStep++;
+                        break;
+
+                    case 3:
+                        addBotMessage(steps[4]);
+                        currentStep++;
+                        break;
+
+                    case 4:
+                        addBotMessage(steps[5]);
+                        currentStep++;
+                        break;
+
+                    case 5:
+                        addBotMessage("Here are the required documents for " + selectedService + ": " + documentRequirements[selectedService].join(", ") + ". " + steps[6]);
+                        currentStep++;
+                        break;
+
+                    case 6:
+                        addBotMessage(steps[7]);
+                        currentStep++;
+                        break;
+
+                    case 7:
+                        addBotMessage("Your application for " + selectedService + " has been submitted successfully. " + steps[8]);
+                        currentStep++;
+                        break;
+
+                    case 8:
+                        if (userInput.toLowerCase() === "yes") {
+                            currentStep = 0; // Restart the process
+                            addBotMessage(steps[0]);
+                        } else {
+                            addBotMessage("Goodbye! It was nice assisting you.");
+                            document.getElementById('user-input').disabled = true; // Disable input
+                            document.getElementById('send-btn').disabled = true; // Disable button
+                            document.getElementById('download-btn').disabled = true; // Disable download button
+                        }
+                        break;
+
+                    default:
+                        addBotMessage("Sorry, I didn't understand that. Type 'exit' to quit.");
+                        break;
+                }
+            }
+
+            document.getElementById('user-input').value = ""; // Clear input field
+        });
+
+        document.getElementById('download-btn').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Add the chat history to the PDF
+            chatHistory.forEach((message, index) => {
+                doc.text(message, 10, 10 + (10 * index));
+            });
+
+            // Save the PDF
+            doc.save('chat_history.pdf');
+        });
+
+        // Start the idle timer when the page loads
+        resetIdleTimer();
+    </script>
+</body>
+</html>

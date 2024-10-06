@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('path/to/your/background.jpg') no-repeat center center fixed; /* Background Image */
+            background-size: cover; /* Make the image cover the entire background */
+        }
+        .header {
+            background-color: rgba(0, 123, 255, 0.8); /* Semi-transparent header */
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent container */
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #333;
+        }
+        .toggle-dashboard {
+            margin-top: 30px;
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        .option {
+            padding: 15px;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #0056b3;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Welcome to the Home Page</h2>
+    </div>
+
+    <div class="container">
+        <h1>Main Dashboard</h1>
+        <div class="toggle-dashboard">
+            <div class="option" onclick="location.href='document_applications.html'">
+                Document Applications
+            </div>
+            <div class="option" onclick="location.href='faq.html'">
+                FAQ
+            </div>
+            <div class="option" onclick="location.href='signin.html'">
+                Sign In
+            </div> <!-- New Sign In Option -->
+        </div>
+        <button onclick="location.href='features.html'">Explore Features</button>
+    </div>
+</body>
+</html>

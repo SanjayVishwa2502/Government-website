@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/backgrounds.jpg'); /* Update this path */
+            background-size: cover; /* Make the background cover the whole page */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent background from repeating */
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .option {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Profile Options</h1>
+        <div class="option" onclick="viewUserScore()">View User Score</div>
+        <div class="option" onclick="logOut()">Log Out</div>
+        <div class="option" onclick="otherOption()">Other Options</div>
+        <div class="option" onclick="location.href='trackdocs.html'">Track Docs</div> <!-- New Track Docs Option -->
+        <button onclick="location.href='indexsignin.html'">Back to Home</button>
+    </div>
+
+    <script>
+        function viewUserScore() {
+            alert("Your user score is: 100"); // Replace with actual logic
+        }
+
+        function logOut() {
+            alert("You have been logged out."); // Replace with actual logic for logging out
+            location.href = 'index.html'; // Redirect to index.html after logging out
+        }
+
+        function otherOption() {
+            alert("Other options can be added here."); // Placeholder for other options
+        }
+    </script>
+</body>
+</html>
+
